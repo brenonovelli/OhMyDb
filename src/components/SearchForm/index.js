@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 
-import history from '~/services/history';
+import { FiSearch } from 'react-icons/fi';
 
 import { Container, Form, Input } from './styles';
 
-function SearchForm() {
+const SearchForm = () => {
   const inputRef = useRef(null);
+
+  const history = useHistory();
 
   const handleSearch = e => {
     e.preventDefault();
@@ -18,13 +20,18 @@ function SearchForm() {
 
   return (
     <Container>
-      <Form onSubmit={handleSearch}>
+      <Form onSubmit={handleSearch} data-testid="searchForm">
         <FiSearch />
 
-        <Input type="text" placeholder="Search movies" ref={inputRef} />
+        <Input
+          type="text"
+          placeholder="Search movies"
+          ref={inputRef}
+          data-testid="searchInput"
+        />
       </Form>
     </Container>
   );
-}
+};
 
 export default SearchForm;

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import PropTypes from 'prop-types';
+
 import { MdKeyboardBackspace } from 'react-icons/md';
-
 import { FiAlertCircle } from 'react-icons/fi';
-import api from '~/services/api';
-import history from '~/services/history';
 
-import Loading from '~/components/Loading';
+import api from '../../services/api';
 
-import logoIMDd from '~/assets/logo_imdb.svg';
-import logoRottenTomatoes from '~/assets/logo_rotten_tomatoes.svg';
+import logoIMDd from '../../assets/logo_imdb.svg';
+import logoRottenTomatoes from '../../assets/logo_rotten_tomatoes.svg';
+
+import BoxAlert from '../../components/BoxAlert';
+import FavouriteButton from '../../components/FavouriteButton';
+import Loading from '../../components/Loading';
+import SearchForm from '../../components/SearchForm';
 
 import * as S from './styles';
-import FavouriteButton from '~/components/FavouriteButton';
-import BoxAlert from '~/components/BoxAlert';
-import SearchForm from '~/components/SearchForm';
 
 function Movie({ match }) {
   const { id } = match.params;
@@ -25,6 +26,8 @@ function Movie({ match }) {
   const [errorResponse, setErrorResponse] = useState();
 
   const [rottenTomatoes, setRottenTomatoes] = useState(false);
+
+  const history = useHistory();
 
   useEffect(() => {
     if (!id) {

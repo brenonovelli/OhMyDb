@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { FavouritesProvider } from './favourites';
-// import { ToastProvider } from './toast';
 
 const AppProvider = ({ children }) => (
-  <FavouritesProvider>
-    {/* <ToastProvider>{children}</ToastProvider> */}
-    {children}
-  </FavouritesProvider>
+  <FavouritesProvider>{children}</FavouritesProvider>
 );
 
 export default AppProvider;
+
+AppProvider.propTypes = {
+  children: PropTypes.element.isRequired,
+};

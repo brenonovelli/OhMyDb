@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 
-import BoxAlert from '~/components/BoxAlert';
-import artHome from '~/assets/art_blood.png';
+import BoxAlert from '../../components/BoxAlert';
+import artHome from '../../assets/art_blood.png';
 
-import SearchForm from '~/components/SearchForm';
+import SearchForm from '../../components/SearchForm';
 import { Container } from '../Search/styles';
 
 const Home = () => (

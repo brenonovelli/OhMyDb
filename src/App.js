@@ -1,17 +1,16 @@
 import React from 'react';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Router } from 'react-router-dom';
 
 import Routes from './routes';
-import history from './services/history';
+
 import AppProvider from './hooks';
 
 import GlobalStyles from './styles/global';
 
 function App() {
   return (
-    <Router history={history}>
+    <Router>
       <HelmetProvider>
         <Helmet
           defaultTitle="OhMyDB - OMDb - The Open Movie Database"

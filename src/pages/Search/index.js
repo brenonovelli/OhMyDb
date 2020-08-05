@@ -1,16 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import PropTypes from 'prop-types';
+
 import { FiAlertCircle, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
-import api from '~/services/api';
+import api from '../../services/api';
 
-import MovieItem from '~/components/MovieItem';
-import SearchForm from '~/components/SearchForm';
+import BoxAlert from '../../components/BoxAlert';
+import MovieItem from '../../components/MovieItem';
+import SearchForm from '../../components/SearchForm';
 
 import * as S from './styles';
-import BoxAlert from '~/components/BoxAlert';
-import history from '~/services/history';
 
 const SearchPage = ({ match }) => {
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,8 @@ const SearchPage = ({ match }) => {
   const [totalMovies, setTotalMovies] = useState(0);
   const [errorResponse, setErrorResponse] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+
+  const history = useHistory();
 
   const { term, page } = match.params;
 

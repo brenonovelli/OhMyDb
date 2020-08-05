@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FiHeart } from 'react-icons/fi';
 
-import { useFavourites } from '~/hooks/favourites';
+import { useFavourites } from '../../hooks/favourites';
 
 import * as S from './styles';
 
