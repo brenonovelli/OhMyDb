@@ -21,5 +21,5 @@ Loading.propTypes = {
 };
 
 Loading.defaultProps = {
-  text: 'Carregando...',
+  text: 'Loading...',
 };
