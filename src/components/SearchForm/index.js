@@ -16,6 +16,8 @@ const SearchForm = () => {
     const term = inputRef.current.value;
 
     history.push(`/search/${term}/1`);
+
+    inputRef.current.blur();
   };
 
   return (
