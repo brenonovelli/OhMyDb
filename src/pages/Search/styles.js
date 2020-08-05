@@ -14,20 +14,21 @@ export const ListMovies = styled.ul`
 `;
 
 export const Pagination = styled.footer`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
   align-items: center;
   margin-top: 2rem;
 
   div {
-    justify-self: center;
-
     :first-child {
       justify-self: flex-start;
     }
 
     :last-child {
-      justify-self: flex-end;
+      button {
+        margin-left: auto;
+      }
     }
   }
 
@@ -36,25 +37,20 @@ export const Pagination = styled.footer`
     align-items: center;
     justify-content: center;
 
-    height: 2rem;
-    padding: 1rem;
+    width: 7.5rem;
+    min-height: 2rem;
+    padding: 0.5rem 1rem;
     border-radius: 0.25rem;
 
     font-size: 0.875rem;
     color: var(--mainLight);
-    background: rgba(var(--mainLightRGB), 0.05);
+    background: rgba(var(--mainLightRGB), 0.025);
 
     transition: 0.2s ease-in-out all;
 
     svg {
       font-size: 1rem;
-      margin: 0 0 0 0.25rem;
-    }
-
-    &:first-child {
-      svg {
-        margin: 0 0.25rem 0 0;
-      }
+      margin: 0 0.25rem;
     }
 
     &:hover {
@@ -65,8 +61,15 @@ export const Pagination = styled.footer`
 
   .infos {
     font-size: 0.875rem;
+    text-align: center;
     color: var(--gray);
     transition: 0.2s ease-in-out color;
+    padding: 1rem;
+
+    @media (max-width: 576px) {
+      order: 3;
+      width: 100%;
+    }
 
     &:hover {
       color: var(--mainLight);

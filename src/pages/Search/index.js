@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
+import { animateScroll } from 'react-scroll';
 
 import { FiAlertCircle, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
@@ -33,6 +34,10 @@ const SearchPage = ({ match }) => {
   useEffect(() => {
     (async function loadMovies() {
       setLoading(true);
+
+      await animateScroll.scrollTo(0, {
+        duration: 250,
+      });
 
       try {
         const response = await api.get(`&s=${term}&page=${page}`);
@@ -89,7 +94,7 @@ const SearchPage = ({ match }) => {
               {currentPage > 1 && (
                 <button type="button" onClick={previousPage}>
                   <FiArrowLeft />
-                  Previous Page
+                  Previous
                 </button>
               )}
             </div>
@@ -101,7 +106,7 @@ const SearchPage = ({ match }) => {
             <div>
               {currentPage !== totalPages && (
                 <button type="button" onClick={nextPage}>
-                  Next Page
+                  Next
                   <FiArrowRight />
                 </button>
               )}
