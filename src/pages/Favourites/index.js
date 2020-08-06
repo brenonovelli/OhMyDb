@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { useFavourites } from '../../hooks/favourites';
 
 import BottomBar from '../../components/BottomBar';
+import SearchForm from '../../components/SearchForm';
+import BoxAlert from '../../components/BoxAlert';
 
 import { Container } from './styles';
 
@@ -24,6 +26,12 @@ function Favourites() {
           <FiHeart /> Your favourties movies
         </h1>
       </header>
+      {favourites.length === 0 && (
+        <>
+          <SearchForm />
+          <BoxAlert>You haven't added any movies to favorites yet</BoxAlert>
+        </>
+      )}
       {favourites.map(item => (
         <article key={item}>
           <NavLink to={`/movie/${item.id}`}>{item.title}</NavLink>
