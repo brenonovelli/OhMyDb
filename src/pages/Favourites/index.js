@@ -1,5 +1,4 @@
 import React from 'react';
-import { FiHeart } from 'react-icons/fi';
 
 import { NavLink } from 'react-router-dom';
 import { useFavourites } from '../../hooks/favourites';
@@ -22,9 +21,7 @@ function Favourites() {
       <BottomBar />
 
       <header>
-        <h1>
-          <FiHeart /> Your favourties movies
-        </h1>
+        <h1>Your favourties movies</h1>
       </header>
       {favourites.length === 0 && (
         <>

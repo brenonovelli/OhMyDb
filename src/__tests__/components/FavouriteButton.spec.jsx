@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import FavouriteButton from '../../components/FavouriteButton';
 
@@ -42,16 +42,10 @@ describe('FavouriteButton Component', () => {
 
     expect(mockedFavouriteMovie).toHaveBeenCalledWith('tt2217248', null);
   });
-});
 
-describe('FavouriteButton Component Fav', () => {
-  it('should be able to load full template favorited', () => {
-    act(() => {
-      render(<FavouriteButton movieId="tt2217248" full />);
-    });
+  // it('should be able to load full template favorited', () => {
+  //   render(<FavouriteButton movieId="tt2217248" full />);
 
-    screen.debug(screen.getByText('Remove from favourites'));
-
-    // expect(screen.getByText('Remove from favourites')).toBeTruthy();
-  });
+  //   screen.getByText('Remove from favourites');
+  // });
 });
