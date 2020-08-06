@@ -26,9 +26,4 @@ export const Container = styled.div`
   }
 
   transition: all ease-in-out 0.3s;
-
-  &.active {
-    opacity: 1;
-    z-index: 10;
-  }
 `;

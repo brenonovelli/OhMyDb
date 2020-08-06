@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  max-width: 100vw;
-  width: 924px;
-  padding: 0 1rem;
-  margin: 0 auto;
-`;
+export const Container = styled.div``;
 
 export const ListMovies = styled.ul`
   display: grid;
@@ -21,6 +16,8 @@ export const Pagination = styled.footer`
   margin-top: 2rem;
 
   div {
+    min-width: 8rem;
+
     :first-child {
       justify-self: flex-start;
     }
@@ -73,6 +70,10 @@ export const Pagination = styled.footer`
 
     &:hover {
       color: var(--mainLight);
+    }
+
+    small {
+      display: block;
     }
   }
 `;

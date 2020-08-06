@@ -40,6 +40,7 @@ export default createGlobalStyle`${css`
     -webkit-font-smoothing: antialiased;
     background: var(--mainDark);
     color: var(--mainLight);
+    padding-bottom: 3rem;
   }
 
   body,
@@ -62,5 +63,12 @@ export default createGlobalStyle`${css`
     &:hover {
       color: rgba(var(--mainLightRGB), 0.75);
     }
+  }
+
+  .mainWrapper {
+    max-width: 100vw;
+    width: 924px;
+    padding: 0 1rem;
+    margin: 0 auto;
   }
 `}`;

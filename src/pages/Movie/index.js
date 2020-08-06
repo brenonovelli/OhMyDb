@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import PropTypes from 'prop-types';
 
 import { MdKeyboardBackspace } from 'react-icons/md';
 import { FiAlertCircle } from 'react-icons/fi';
@@ -15,90 +14,96 @@ import BoxAlert from '../../components/BoxAlert';
 import FavouriteButton from '../../components/FavouriteButton';
 import Loading from '../../components/Loading';
 import SearchForm from '../../components/SearchForm';
+import BottomBar from '../../components/BottomBar';
 
 import * as S from './styles';
 
-function Movie({ match }) {
-  const { id } = match.params;
-
+const Movie = () => {
   const [loading, setLoading] = useState(true);
   const [infos, setInfos] = useState({});
   const [errorResponse, setErrorResponse] = useState();
 
   const [rottenTomatoes, setRottenTomatoes] = useState(false);
 
+  const { id } = useParams();
   const history = useHistory();
 
-  useEffect(() => {
+  const loadMovie = useCallback(async () => {
+    setLoading(true);
+
     if (!id) {
       setErrorResponse('Movie not found.');
       setLoading(false);
       return;
     }
 
-    (async function loadMovies() {
-      setLoading(true);
+    try {
+      const response = await api.get(`&i=${id}`);
 
-      try {
-        const response = await api.get(`&i=${id}`);
+      if (response.data.Response !== 'False') {
+        const {
+          Runtime,
+          Year,
+          Rated,
+          Title,
+          imdbRating,
+          Ratings,
+          Plot,
+          Actors,
+          Genre,
+          Director,
+          Poster,
+        } = response.data;
 
-        if (response.data.Response !== 'False') {
-          const {
-            Runtime,
-            Year,
-            Rated,
-            Title,
-            imdbRating,
-            Ratings,
-            Plot,
-            Actors,
-            Genre,
-            Director,
-            Poster,
-          } = response.data;
+        if (Ratings) {
+          const responseRottenTomatoes = Ratings.filter(
+            item => item.Source === 'Rotten Tomatoes',
+          );
 
-          if (Ratings) {
-            const responseRottenTomatoes = Ratings.filter(
-              item => item.Source === 'Rotten Tomatoes',
-            );
-
-            if (responseRottenTomatoes.length > 0) {
-              setRottenTomatoes(responseRottenTomatoes[0].Value);
-            }
+          if (responseRottenTomatoes.length > 0) {
+            setRottenTomatoes(responseRottenTomatoes[0].Value);
           }
-
-          setInfos({
-            Runtime,
-            Year,
-            Rated,
-            Title,
-            imdbRating,
-            Plot,
-            Actors: Actors.split(',').map(item => item.trim()),
-            Genre: Genre.split(',').map(item => item.trim()),
-            Director: Director.split(',').map(item => item.trim()),
-            Poster,
-          });
-
-          setLoading(false);
-        } else {
-          const { Error } = response.data;
-
-          setErrorResponse(Error);
         }
-      } catch (err) {
-        setErrorResponse('Something went wrong. Try again.');
-      }
 
-      setLoading(false);
-    })();
+        setInfos({
+          Runtime,
+          Year,
+          Rated,
+          Title,
+          imdbRating,
+          Plot,
+          Actors: Actors.split(',').map(item => item.trim()),
+          Genre: Genre.split(',').map(item => item.trim()),
+          Director: Director.split(',').map(item => item.trim()),
+          Poster,
+        });
+
+        setErrorResponse(null);
+
+        setLoading(false);
+      } else {
+        const { Error } = response.data;
+
+        setErrorResponse(Error);
+      }
+    } catch (err) {
+      setErrorResponse('Something went wrong. Try again.');
+    }
+
+    setLoading(false);
   }, [id]);
 
+  useEffect(() => {
+    loadMovie();
+  }, [loadMovie]);
+
   return (
-    <S.Container>
+    <S.Container className="mainWrapper">
       <Helmet>
         <title>{infos && infos.Title}</title>
       </Helmet>
+
+      <BottomBar />
 
       <S.NavTop>
         <button type="button" onClick={() => history.goBack()}>
@@ -121,7 +126,7 @@ function Movie({ match }) {
 
       {!errorResponse && (
         <>
-          <S.ContainerInfos loading={loading}>
+          <S.ContainerInfos loading={loading ? 1 : 0}>
             {!loading && (
               <>
                 <header>
@@ -155,7 +160,11 @@ function Movie({ match }) {
                       </div>
                     )}
 
-                    <FavouriteButton movieId={id} full />
+                    <FavouriteButton
+                      movieId={id}
+                      movieTitle={infos.Title}
+                      full
+                    />
                   </S.MoreInfos>
                 </header>
 
@@ -185,7 +194,7 @@ function Movie({ match }) {
             )}
           </S.ContainerInfos>
 
-          <S.Poster loading={loading}>
+          <S.Poster loading={loading ? 1 : 0}>
             {!loading && (
               <img src={infos.Poster} alt={`Poster - ${infos.Title}`} />
             )}
@@ -194,14 +203,6 @@ function Movie({ match }) {
       )}
     </S.Container>
   );
-}
+};
 
 export default Movie;
-
-Movie.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
-};

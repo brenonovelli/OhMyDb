@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 100vw;
-  width: 924px;
-  padding: 0 1rem;
-  margin: 0 auto;
-
   display: flex;
   flex-flow: wrap;
   justify-content: space-between;
@@ -19,7 +14,7 @@ export const Container = styled.div`
 export const NavTop = styled.nav`
   width: 100%;
 
-  padding: 3.75rem 0 0.25rem;
+  padding: 2rem 0 0.25rem;
 
   svg {
     color: var(--gray);

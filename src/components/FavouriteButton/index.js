@@ -6,12 +6,12 @@ import { useFavourites } from '../../hooks/favourites';
 
 import * as S from './styles';
 
-const FavouriteButton = ({ movieId, full = false }) => {
+const FavouriteButton = ({ movieId, movieTitle, full = false }) => {
   const [favorite, setFavorite] = useState(false);
   const { favoriteMovie, favourites } = useFavourites();
 
   useEffect(() => {
-    setFavorite(favourites.indexOf(movieId) >= 0);
+    setFavorite(favourites.filter(item => item.id === movieId).length > 0);
   }, [favourites, movieId]);
 
   const textButton = useMemo(
@@ -19,7 +19,7 @@ const FavouriteButton = ({ movieId, full = false }) => {
     [favorite],
   );
 
-  const handleFavorite = () => favoriteMovie(movieId);
+  const handleFavorite = () => favoriteMovie(movieId, movieTitle);
 
   return (
     <S.Container
@@ -28,6 +28,7 @@ const FavouriteButton = ({ movieId, full = false }) => {
       onClick={handleFavorite}
       isFavorite={favorite}
       full={full}
+      data-testid="favButton"
     >
       <FiHeart />
       {full && <span>{textButton}</span>}
@@ -39,9 +40,11 @@ export default FavouriteButton;
 
 FavouriteButton.propTypes = {
   movieId: PropTypes.string.isRequired,
+  movieTitle: PropTypes.string,
   full: PropTypes.bool,
 };
 
 FavouriteButton.defaultProps = {
   full: false,
+  movieTitle: null,
 };

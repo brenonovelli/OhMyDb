@@ -4,8 +4,8 @@ import { FiLoader } from 'react-icons/fi';
 
 import { Container } from './styles';
 
-const Loading = ({ status = false, text = 'Loading...' }) => (
-  <Container className={status && 'active'}>
+const Loading = ({ text = 'Loading...' }) => (
+  <Container>
     <div>
       <FiLoader />
     </div>
@@ -16,7 +16,6 @@ const Loading = ({ status = false, text = 'Loading...' }) => (
 export default Loading;
 
 Loading.propTypes = {
-  status: PropTypes.bool.isRequired,
   text: PropTypes.string,
 };
 

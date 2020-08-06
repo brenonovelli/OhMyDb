@@ -31,6 +31,8 @@ const SearchForm = () => {
           ref={inputRef}
           data-testid="searchInput"
         />
+
+        <button type="submit">search</button>
       </Form>
     </Container>
   );

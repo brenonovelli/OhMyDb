@@ -15,19 +15,21 @@ const FavouritesProvider = ({ children }) => {
   });
 
   const favoriteMovie = useCallback(
-    idMovie => {
-      const isFavourite = data.indexOf(idMovie);
+    (id, title) => {
+      const isFavourite = data.filter(item => item.id === id).length;
 
-      if (isFavourite === -1) {
+      console.log(isFavourite);
+
+      if (isFavourite === 0) {
         localStorage.setItem(
           '@OhMyDB:favourites',
-          JSON.stringify([...data, idMovie]),
+          JSON.stringify([...data, { id, title }]),
         );
-        setData([...data, idMovie]);
+        setData([...data, { id, title }]);
       }
 
-      if (isFavourite >= 0) {
-        const filteredList = data.filter(item => item !== idMovie);
+      if (isFavourite > 0) {
+        const filteredList = data.filter(item => item.id !== id);
 
         localStorage.setItem(
           '@OhMyDB:favourites',
@@ -51,7 +53,7 @@ function useFavourites() {
   const context = useContext(FavouriteContext);
 
   if (!context) {
-    throw new Error('useTerm must be used within an FavouritesProvider');
+    throw new Error('useFavourites must be used within an FavouritesProvider');
   }
 
   return context;

@@ -29,6 +29,14 @@ export const Form = styled.form`
       color: var(--red);
     }
   }
+
+  button {
+    background: rgba(var(--grayRGB), 0.2);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    letter-spacing: -0.25px;
+  }
 `;
 
 export const Input = styled.input`

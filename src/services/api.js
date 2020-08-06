@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `https://www.omdbapi.com/?apikey=1a72b1e4&`,
+  baseURL: `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&`,
 });
 
 export default api;

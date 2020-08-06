@@ -24,7 +24,7 @@ const MovieItem = ({ movie }) => {
     <S.Container empty={!!movie}>
       {movie ? (
         <>
-          <FavouriteButton movieId={movie.imdbID} />
+          <FavouriteButton movieId={movie.imdbID} movieTitle={movie.Title} />
 
           <Link to={`/movie/${movie.imdbID}`}>
             {poster ? (

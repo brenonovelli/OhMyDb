@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import PropTypes from 'prop-types';
 import { animateScroll } from 'react-scroll';
 
 import { FiAlertCircle, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
@@ -13,17 +12,18 @@ import MovieItem from '../../components/MovieItem';
 import SearchForm from '../../components/SearchForm';
 
 import * as S from './styles';
+import BottomBar from '../../components/BottomBar';
 
-const SearchPage = ({ match }) => {
+const SearchPage = () => {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState(Array.from({ length: 10 }));
   const [totalMovies, setTotalMovies] = useState(0);
-  const [errorResponse, setErrorResponse] = useState();
+  const [errorResponse, setErrorResponse] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const history = useHistory();
 
-  const { term, page } = match.params;
+  const { term, page } = useParams();
 
   const totalPages = useMemo(() => Math.ceil(totalMovies / 10), [totalMovies]);
 
@@ -31,35 +31,38 @@ const SearchPage = ({ match }) => {
     setCurrentPage(Number(page) || 1);
   }, [page]);
 
-  useEffect(() => {
-    (async function loadMovies() {
-      setLoading(true);
+  const loadMovies = useCallback(async () => {
+    setLoading(true);
 
-      await animateScroll.scrollTo(0, {
-        duration: 250,
-      });
+    await animateScroll.scrollTo(0, {
+      duration: 250,
+    });
 
-      try {
-        const response = await api.get(`&s=${term}&page=${page}`);
+    try {
+      const response = await api.get(`&s=${term}&page=${page}`);
 
-        const { Search, totalResults, Response } = response.data;
+      const { Search, totalResults, Response } = response.data;
 
-        if (Response !== 'False') {
-          setMovies([...Search]);
-          setTotalMovies(totalResults);
-          setLoading(false);
-        } else {
-          const { Error } = response.data;
+      if (Response !== 'False') {
+        setMovies([...Search]);
+        setTotalMovies(totalResults);
+        setErrorResponse(null);
+        setLoading(false);
+      } else {
+        const { Error } = response.data;
 
-          setErrorResponse(Error);
-        }
-      } catch (err) {
-        setErrorResponse('Something went wrong. Try again.');
+        setErrorResponse(Error);
       }
+    } catch (err) {
+      setErrorResponse('Something went wrong. Try again.');
+    }
 
-      setLoading(false);
-    })();
+    setLoading(false);
   }, [term, page]);
+
+  useEffect(() => {
+    loadMovies();
+  }, [loadMovies]);
 
   const previousPage = () => {
     setLoading(true);
@@ -72,10 +75,12 @@ const SearchPage = ({ match }) => {
   };
 
   return (
-    <S.Container>
+    <S.Container className="mainWrapper">
       <Helmet>
         <title>{term || 'New search'} | Search</title>
       </Helmet>
+
+      <BottomBar />
 
       <SearchForm />
 
@@ -100,7 +105,8 @@ const SearchPage = ({ match }) => {
             </div>
 
             <div className="infos">
-              Results: {totalMovies} | Page: {currentPage}/{totalPages}
+              {currentPage}/{totalPages}
+              <small>({totalMovies} results)</small>
             </div>
 
             <div>
@@ -127,12 +133,3 @@ const SearchPage = ({ match }) => {
 };
 
 export default SearchPage;
-
-SearchPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      term: PropTypes.string.isRequired,
-      page: PropTypes.string,
-    }),
-  }).isRequired,
-};
