@@ -131,4 +131,11 @@ export const InfosWrapper = styled.div`
     font-size: 0.875rem;
     opacity: 0.8;
   }
+
+  @media (max-width: 576px) {
+    opacity: 1;
+    height: auto;
+    font-size: 0.75rem;
+    border-radius: 0.25rem 0.25rem 0.5rem 0.5rem;
+  }
 `;

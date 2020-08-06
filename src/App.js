@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import Routes from './routes';
+import { Routes } from './routes';
 
 import AppProvider from './hooks';
 

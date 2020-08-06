@@ -1,21 +1,36 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import Home from '../../pages/Home';
 
-const mockedHistoryPush = jest.fn();
+const mockHistoryPush = jest.fn();
 
-jest.mock('react-router-dom', () => {
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
+
+jest.mock('../../hooks/favourites', () => {
   return {
-    useHistory: () => ({
-      push: mockedHistoryPush,
+    useFavourites: () => ({
+      favoriteMovie: jest.fn(),
+      favourites: [],
+      favouritesCount: 20,
     }),
   };
 });
 
 describe('Home Page', () => {
   it('should be able to search a movie', () => {
-    const { getByTestId } = render(<Home />);
+    const { getByTestId } = render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    );
 
     const searchForm = getByTestId('searchForm');
     const searchField = getByTestId('searchInput');
@@ -26,6 +41,6 @@ describe('Home Page', () => {
 
     fireEvent.submit(searchForm);
 
-    expect(mockedHistoryPush).toHaveBeenCalledWith(`/search/${term}/1`);
+    expect(mockHistoryPush).toHaveBeenCalledWith(`/search/${term}/1`);
   });
 });
