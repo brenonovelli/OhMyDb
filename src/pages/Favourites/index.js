@@ -29,7 +29,7 @@ function Favourites() {
       {favourites.length === 0 && (
         <>
           <SearchForm />
-          <BoxAlert>You haven't added any movies to favorites yet</BoxAlert>
+          <BoxAlert>No saved movies yet</BoxAlert>
         </>
       )}
       {favourites.map(item => (

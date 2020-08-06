@@ -18,8 +18,6 @@ const FavouritesProvider = ({ children }) => {
     (id, title) => {
       const isFavourite = data.filter(item => item.id === id).length;
 
-      console.log(isFavourite);
-
       if (isFavourite === 0) {
         localStorage.setItem(
           '@OhMyDB:favourites',
