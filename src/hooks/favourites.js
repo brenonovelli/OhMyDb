@@ -40,8 +40,16 @@ const FavouritesProvider = ({ children }) => {
     [data],
   );
 
+  const favouritesCount = () => (data.length > 99 ? '+99' : data.length);
+
   return (
-    <FavouriteContext.Provider value={{ favourites: data, favoriteMovie }}>
+    <FavouriteContext.Provider
+      value={{
+        favourites: data,
+        favouritesCount: favouritesCount(),
+        favoriteMovie,
+      }}
+    >
       {children}
     </FavouriteContext.Provider>
   );
