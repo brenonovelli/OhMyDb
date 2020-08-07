@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { act, render } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -70,4 +70,22 @@ describe('Movie Page', () => {
 
     expect(getByText('Incorrect IMDb ID.')).toBeTruthy();
   });
+
+  // it('should be able to show error message on incorrect request', async () => {
+  //   const helmetContext = {};
+
+  //   render(
+  //     <MemoryRouter>
+  //       <HelmetProvider context={helmetContext}>
+  //         <Movie />
+  //       </HelmetProvider>
+  //     </MemoryRouter>,
+  //   );
+
+  //   await act(async () => {
+  //     await apiMock.onGet('&i=tt123456').networkError();
+  //   });
+
+  //   expect(screen.queryByText('Something went wrong')).toBeTruthy();
+  // });
 });

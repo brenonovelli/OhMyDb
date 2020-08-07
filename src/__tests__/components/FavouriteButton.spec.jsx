@@ -4,29 +4,28 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import FavouriteButton from '../../components/FavouriteButton';
 
 const mockedFavouriteMovie = jest.fn();
+const mockedMovie = { id: 'tt2217248', title: 'Movie title' };
 
 jest.mock('../../hooks/favourites', () => {
   return {
     useFavourites: () => ({
       favoriteMovie: mockedFavouriteMovie,
-      favourites: ['tt2217248'],
+      favourites: [mockedMovie],
     }),
   };
 });
 
 describe('FavouriteButton Component', () => {
   it('should be able to load full template', () => {
-    const { getByText, rerender } = render(
-      <FavouriteButton movieId="tt22172xx" />,
-    );
+    const { getByText, rerender } = render(<FavouriteButton id="tt22172xx" />);
 
-    rerender(<FavouriteButton movieId="tt22172xx" full />);
+    rerender(<FavouriteButton id="tt22172xx" full />);
 
     expect(getByText('Add to favourites')).toBeTruthy();
   });
 
   it('should be able to load mini template without quote', () => {
-    render(<FavouriteButton movieId="tt22172xx" />);
+    render(<FavouriteButton id="tt22172xx" />);
 
     const spanWithText = screen.queryByText('Add to favourites');
 
@@ -34,18 +33,24 @@ describe('FavouriteButton Component', () => {
   });
 
   it('should be able to load favorite function', () => {
-    render(<FavouriteButton movieId="tt2217248" />);
+    render(<FavouriteButton id={mockedMovie.id} title={mockedMovie.title} />);
 
     const favButton = screen.getByTestId('favButton');
 
     fireEvent.click(favButton);
 
-    expect(mockedFavouriteMovie).toHaveBeenCalledWith('tt2217248', null);
+    expect(mockedFavouriteMovie).toHaveBeenCalledWith({
+      id: 'tt2217248',
+      title: 'Movie title',
+    });
   });
 
-  // it('should be able to load full template favorited', () => {
-  //   render(<FavouriteButton movieId="tt2217248" full />);
+  it.todo(
+    'should be able to load full template favorited',
+    // , () => {
+    //   render(<FavouriteButton id="tt2217248" full />);
 
-  //   screen.getByText('Remove from favourites');
-  // });
+    //   screen.getByText('Remove from favourites');
+    // }
+  );
 });

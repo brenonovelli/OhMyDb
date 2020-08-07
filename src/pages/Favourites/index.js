@@ -13,7 +13,7 @@ function Favourites() {
   const { favoriteMovie, favourites } = useFavourites();
 
   const handleRemove = id => {
-    favoriteMovie(id);
+    favoriteMovie({ id });
   };
 
   return (

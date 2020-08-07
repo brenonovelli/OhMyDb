@@ -160,11 +160,7 @@ const Movie = () => {
                       </div>
                     )}
 
-                    <FavouriteButton
-                      movieId={id}
-                      movieTitle={infos.Title}
-                      full
-                    />
+                    <FavouriteButton id={id} title={infos.Title} full />
                   </S.MoreInfos>
                 </header>
 

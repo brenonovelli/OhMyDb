@@ -15,7 +15,7 @@ const FavouritesProvider = ({ children }) => {
   });
 
   const favoriteMovie = useCallback(
-    (id, title) => {
+    ({ id, title }) => {
       const isFavourite = data.filter(item => item.id === id).length;
 
       if (isFavourite === 0) {
@@ -57,10 +57,6 @@ const FavouritesProvider = ({ children }) => {
 
 function useFavourites() {
   const context = useContext(FavouriteContext);
-
-  if (!context) {
-    throw new Error('useFavourites must be used within an FavouritesProvider');
-  }
 
   return context;
 }

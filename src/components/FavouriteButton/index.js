@@ -6,20 +6,20 @@ import { useFavourites } from '../../hooks/favourites';
 
 import * as S from './styles';
 
-const FavouriteButton = ({ movieId, movieTitle, full = false }) => {
+const FavouriteButton = ({ id, title, full = false }) => {
   const [favorite, setFavorite] = useState(false);
   const { favoriteMovie, favourites } = useFavourites();
 
   useEffect(() => {
-    setFavorite(favourites.filter(item => item.id === movieId).length > 0);
-  }, [favourites, movieId]);
+    setFavorite(favourites.filter(item => item.id === id).length > 0);
+  }, [favourites, id]);
 
   const textButton = useMemo(
     () => (favorite ? 'Remove from favourites' : 'Add to favourites'),
     [favorite],
   );
 
-  const handleFavorite = () => favoriteMovie(movieId, movieTitle);
+  const handleFavorite = () => favoriteMovie({ id, title });
 
   return (
     <S.Container
@@ -39,12 +39,12 @@ const FavouriteButton = ({ movieId, movieTitle, full = false }) => {
 export default FavouriteButton;
 
 FavouriteButton.propTypes = {
-  movieId: PropTypes.string.isRequired,
-  movieTitle: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string,
   full: PropTypes.bool,
 };
 
 FavouriteButton.defaultProps = {
   full: false,
-  movieTitle: null,
+  title: null,
 };
