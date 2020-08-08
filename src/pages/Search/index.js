@@ -54,7 +54,7 @@ const SearchPage = () => {
         setErrorResponse(Error);
       }
     } catch (err) {
-      setErrorResponse('Something went wrong. Try again.');
+      setErrorResponse('Something went wrong.');
     }
 
     setLoading(false);

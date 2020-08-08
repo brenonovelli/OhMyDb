@@ -5,7 +5,7 @@ describe('Search Form Component', () => {
     cy.get(['data-testid=searchForm']);
   });
 
-  it('should be able to search a movie', () => {
+  it('should be able to redirect to the search page with the correctly params', () => {
     cy.visit('/');
 
     cy.get('[data-testid=searchInput]').type('shadows');
