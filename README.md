@@ -35,8 +35,17 @@ REACT_APP_API_KEY=YOUR_API_KEY
 
   > Com o projero rodando, acesse o app no seu nevegador em http://localhost:3000.
 
-- Para testar o projeto execute  
-  `yarn test`
+# **Testes**
+
+Para testar está sendo usado o Jest com a `@testing-library/react` e o `cypress`.
+
+- Para testar o projeto execute um dos comandos abaixo
+  - Testes com o Jest  
+    `yarn test`
+  - Testes com o Cypress  
+    `yarn cypress`  
+    `yarn cypress:chrome`  
+    `yarn cypress:open`
 
 # **Screenshots**
 

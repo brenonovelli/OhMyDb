@@ -12,6 +12,7 @@ const Home = () => (
     <BottomBar />
 
     <SearchForm />
+
     <BoxAlert>
       <img src={artHome} alt="Don't know what to search?" />
       <h1>Don't know what to search?</h1>
