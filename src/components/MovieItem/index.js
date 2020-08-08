@@ -21,7 +21,7 @@ const MovieItem = ({ movie }) => {
   }, [movie]);
 
   return (
-    <S.Container empty={!!movie}>
+    <S.Container empty={!!movie} data-testid="movieItem">
       {movie ? (
         <>
           <FavouriteButton id={movie.imdbID} title={movie.Title} />

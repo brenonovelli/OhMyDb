@@ -115,7 +115,11 @@ const Movie = ({ location }) => {
       <BottomBar />
 
       <S.NavTop>
-        <button type="button" onClick={handleBackButton}>
+        <button
+          type="button"
+          onClick={handleBackButton}
+          data-testid="backButton"
+        >
           <MdKeyboardBackspace />
         </button>
       </S.NavTop>

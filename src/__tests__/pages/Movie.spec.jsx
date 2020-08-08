@@ -5,8 +5,10 @@ import { HelmetProvider } from 'react-helmet-async';
 import MockAdapter from 'axios-mock-adapter';
 
 import api from '../../services/api';
+
 import movieResponse from '../../__fixtures__/movie.data.json';
 import movieNotFoundResponse from '../../__fixtures__/movie-not-found.data.json';
+
 import Movie from '../../pages/Movie';
 
 jest.mock('react-router-dom', () => ({

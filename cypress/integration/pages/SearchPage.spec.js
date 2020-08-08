@@ -30,4 +30,22 @@ describe('Search Page', () => {
     cy.visit('/search/qwertyuiop/1');
     cy.contains('Something went wrong.');
   });
+
+  it('should be able to redirects to the movie page if only one result', () => {
+    cy.server();
+    cy.route({
+      method: 'GET',
+      url: 'https://www.omdbapi.com/?apikey=1a72b1e4&/&s=tt0462538&page=1',
+      status: 200,
+      response: {
+        Response: 'True',
+        totalResults: '1',
+        Search: [{ imdbID: 'tt0462538' }],
+      },
+    });
+
+    cy.visit('/search/tt0462538/1');
+
+    cy.url().should('eq', `${Cypress.config().baseUrl}/movie/tt0462538`);
+  });
 });
