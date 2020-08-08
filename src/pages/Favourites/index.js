@@ -30,7 +30,7 @@ function Favourites() {
         </>
       )}
       {favourites.map(item => (
-        <article key={item}>
+        <article key={item.id}>
           <NavLink to={`/movie/${item.id}`}>{item.title}</NavLink>
           <button type="button" onClick={() => handleRemove(item.id)}>
             remove

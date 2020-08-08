@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -18,7 +19,7 @@ import BottomBar from '../../components/BottomBar';
 
 import * as S from './styles';
 
-const Movie = () => {
+const Movie = ({ location }) => {
   const [loading, setLoading] = useState(true);
   const [infos, setInfos] = useState({});
   const [errorResponse, setErrorResponse] = useState();
@@ -97,6 +98,14 @@ const Movie = () => {
     loadMovie();
   }, [loadMovie]);
 
+  const handleBackButton = () => {
+    if (location.state && location.state.from === id) {
+      history.push('/search');
+    } else {
+      history.goBack();
+    }
+  };
+
   return (
     <S.Container className="mainWrapper">
       <Helmet>
@@ -106,7 +115,7 @@ const Movie = () => {
       <BottomBar />
 
       <S.NavTop>
-        <button type="button" onClick={() => history.goBack()}>
+        <button type="button" onClick={handleBackButton}>
           <MdKeyboardBackspace />
         </button>
       </S.NavTop>
@@ -202,3 +211,19 @@ const Movie = () => {
 };
 
 export default Movie;
+
+Movie.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      from: PropTypes.string,
+    }),
+  }),
+};
+
+Movie.defaultProps = {
+  location: {
+    state: {
+      from: null,
+    },
+  },
+};

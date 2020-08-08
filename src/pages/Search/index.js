@@ -44,6 +44,16 @@ const SearchPage = () => {
       const { Search, totalResults, Response } = response.data;
 
       if (Response !== 'False') {
+        if (totalResults === '1') {
+          history.push({
+            pathname: `/movie/${Search[0].imdbID}`,
+            state: {
+              from: Search[0].imdbID,
+            },
+          });
+          return;
+        }
+
         setMovies([...Search]);
         setTotalMovies(totalResults);
         setErrorResponse(null);
@@ -58,7 +68,7 @@ const SearchPage = () => {
     }
 
     setLoading(false);
-  }, [term, page]);
+  }, [term, page, history]);
 
   useEffect(() => {
     loadMovies();
