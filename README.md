@@ -35,6 +35,10 @@ REACT_APP_API_KEY=YOUR_API_KEY
 
   > Com o projero rodando, acesse o app no seu nevegador em http://localhost:3000.
 
+# **SWR**
+
+SWR está sendo usado nas resquisições para otimizar o cache.
+
 # **Testes**
 
 Para testar está sendo usado o Jest com a `@testing-library/react` e o `cypress`.
