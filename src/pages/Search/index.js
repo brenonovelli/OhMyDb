@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { animateScroll } from 'react-scroll';
 
 import { FiAlertCircle, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
-import api from '../../services/api';
+import { useFetch } from '../../hooks/fecth';
 
 import BoxAlert from '../../components/BoxAlert';
 import MovieItem from '../../components/MovieItem';
@@ -21,9 +21,10 @@ const SearchPage = () => {
   const [errorResponse, setErrorResponse] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { term, page } = useParams();
   const history = useHistory();
 
-  const { term, page } = useParams();
+  const { data, error } = useFetch(`&s=${term}&page=${page}`);
 
   const totalPages = useMemo(() => Math.ceil(totalMovies / 10), [totalMovies]);
 
@@ -31,17 +32,13 @@ const SearchPage = () => {
     setCurrentPage(Number(page) || 1);
   }, [page]);
 
-  const loadMovies = useCallback(async () => {
-    setLoading(true);
-
-    await animateScroll.scrollTo(0, {
+  useEffect(() => {
+    animateScroll.scrollTo(0, {
       duration: 250,
     });
 
-    try {
-      const response = await api.get(`&s=${term}&page=${page}`);
-
-      const { Search, totalResults, Response } = response.data;
+    if (data) {
+      const { Search, totalResults, Response } = data;
 
       if (Response !== 'False') {
         if (totalResults === '1') {
@@ -59,20 +56,20 @@ const SearchPage = () => {
         setErrorResponse(null);
         setLoading(false);
       } else {
-        const { Error } = response.data;
+        const { Error } = data;
 
         setErrorResponse(Error);
+
+        setLoading(false);
       }
-    } catch (err) {
-      setErrorResponse('Something went wrong.');
     }
 
-    setLoading(false);
-  }, [term, page, history]);
+    if (error) {
+      setErrorResponse('Something went wrong.');
 
-  useEffect(() => {
-    loadMovies();
-  }, [loadMovies]);
+      setLoading(false);
+    }
+  }, [data, error, history]);
 
   const previousPage = () => {
     setLoading(true);

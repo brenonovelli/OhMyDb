@@ -1,7 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { act, render } from '@testing-library/react';
+import { act, render, waitForElementToBeRemoved } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
+import { SWRConfig, cache } from 'swr';
 import MockAdapter from 'axios-mock-adapter';
 
 import api from '../../services/api';
@@ -30,16 +31,22 @@ jest.mock('../../hooks/favourites', () => {
 
 const apiMock = new MockAdapter(api);
 
+afterEach(() => {
+  cache.clear();
+});
+
 describe('Movie Page', () => {
   it('should be able to render the movie', async () => {
     const helmetContext = {};
 
     const { getByText } = render(
-      <MemoryRouter>
-        <HelmetProvider context={helmetContext}>
-          <Movie />
-        </HelmetProvider>
-      </MemoryRouter>,
+      <SWRConfig value={{ dedupingInterval: 0 }}>
+        <MemoryRouter>
+          <HelmetProvider context={helmetContext}>
+            <Movie />
+          </HelmetProvider>
+        </MemoryRouter>
+      </SWRConfig>,
     );
 
     expect(getByText(/loading/i)).toBeTruthy();
@@ -57,7 +64,9 @@ describe('Movie Page', () => {
     const { getByText } = render(
       <MemoryRouter>
         <HelmetProvider context={helmetContext}>
-          <Movie />
+          <SWRConfig value={{ dedupingInterval: 0 }}>
+            <Movie />
+          </SWRConfig>
         </HelmetProvider>
       </MemoryRouter>,
     );

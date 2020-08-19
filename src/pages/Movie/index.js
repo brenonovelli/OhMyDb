@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import { FiAlertCircle } from 'react-icons/fi';
 
-import api from '../../services/api';
+import { useFetch } from '../../hooks/fecth';
 
 import logoIMDd from '../../assets/logo_imdb.svg';
 import logoRottenTomatoes from '../../assets/logo_rotten_tomatoes.svg';
@@ -29,19 +29,11 @@ const Movie = ({ location }) => {
   const { id } = useParams();
   const history = useHistory();
 
-  const loadMovie = useCallback(async () => {
-    setLoading(true);
+  const { data, error } = useFetch(`&i=${id}`);
 
-    if (!id) {
-      setErrorResponse('Movie not found.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await api.get(`&i=${id}`);
-
-      if (response.data.Response !== 'False') {
+  useEffect(() => {
+    if (data) {
+      if (data.Response !== 'False') {
         const {
           Runtime,
           Year,
@@ -54,7 +46,7 @@ const Movie = ({ location }) => {
           Genre,
           Director,
           Poster,
-        } = response.data;
+        } = data;
 
         if (Ratings) {
           const responseRottenTomatoes = Ratings.filter(
@@ -83,20 +75,19 @@ const Movie = ({ location }) => {
 
         setLoading(false);
       } else {
-        const { Error } = response.data;
+        const { Error } = data;
 
         setErrorResponse(Error);
+
+        setLoading(false);
       }
-    } catch (err) {
-      setErrorResponse('Something went wrong. Try again.');
     }
 
-    setLoading(false);
-  }, [id]);
-
-  useEffect(() => {
-    loadMovie();
-  }, [loadMovie]);
+    if (error) {
+      setErrorResponse('Something went wrong. Try again.');
+      setLoading(false);
+    }
+  }, [data, error]);
 
   const handleBackButton = () => {
     if (location.state && location.state.from === id) {
@@ -139,7 +130,10 @@ const Movie = ({ location }) => {
 
       {!errorResponse && (
         <>
-          <S.ContainerInfos loading={loading ? 1 : 0}>
+          <S.ContainerInfos
+            data-testid="ContainerInfos"
+            loading={loading ? 1 : 0}
+          >
             {!loading && (
               <>
                 <header>
