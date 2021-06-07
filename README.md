@@ -5,8 +5,12 @@
 </h1>
 
 <h3 align="center">
-  OhMyDB é um app catálogo de filmes e séries que consome a OMDb API - The Open Movie Database. Você pode consultar a sinopse do filme, ver detalhes e salva-lo na sua lista de favoritos
+  OhMyDB é um app catálogo de filmes e séries que consome a OMDb API - The Open Movie Database. Você pode consultar a sinopse do filme, ver detalhes e salva-lo na sua lista de favoritos. 
 </h3>
+
+
+👁 [Veja online aqui](https://ohmydb.netlify.app/)
+
 
 # **Instalação**
 
